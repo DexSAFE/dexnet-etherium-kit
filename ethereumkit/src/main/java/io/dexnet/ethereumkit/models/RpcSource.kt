@@ -35,6 +35,10 @@ sealed class RpcSource() {
             return Http(listOf(URI("https://bscrpc.com")), null)
         }
 
+        fun dexnetRpcHttp(): Http {
+            return Http(listOf(URI("https://rpc.dexnetchain.com")), null)
+        }
+
         fun binanceSmartChainHttp(): Http {
             return Http(
                     listOf(

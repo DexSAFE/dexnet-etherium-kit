@@ -30,7 +30,7 @@ class AddressWatchViewModel : ViewModel() {
 
     val lastBlockHeight = MutableLiveData<Long>()
     val transactions = MutableLiveData<List<TransactionRecord>>()
-    val showWarningLiveEvent = io.dexnet.ethereumkit.sample.SingleLiveEvent<String>()
+    val showWarningLiveEvent = SingleLiveEvent<String>()
     val showTxTypeLiveData = MutableLiveData<ShowTxType>()
     val transactionsSyncingLiveData = MutableLiveData(false)
 
@@ -52,7 +52,7 @@ class AddressWatchViewModel : ViewModel() {
 
         val evmKit = createKit(wordList)
         val evmAdapter = EthereumBaseAdapter(evmKit)
-        val erc20Adapter = Erc20BaseAdapter(io.dexnet.ethereumkit.sample.App.instance, io.dexnet.ethereumkit.sample.Configuration.erc20Tokens.first(), evmKit)
+        val erc20Adapter = Erc20BaseAdapter(App.instance, Configuration.erc20Tokens.first(), evmKit)
 
         Erc20Kit.addTransactionSyncer(evmKit)
         Erc20Kit.addDecorators(evmKit)
@@ -100,8 +100,8 @@ class AddressWatchViewModel : ViewModel() {
     }
 
     private fun clearKits() {
-        EthereumKit.clear(io.dexnet.ethereumkit.sample.App.instance, io.dexnet.ethereumkit.sample.Configuration.chain, io.dexnet.ethereumkit.sample.Configuration.walletId)
-        Erc20Kit.clear(io.dexnet.ethereumkit.sample.App.instance, io.dexnet.ethereumkit.sample.Configuration.chain, io.dexnet.ethereumkit.sample.Configuration.walletId)
+        EthereumKit.clear(App.instance, Configuration.chain, Configuration.walletId)
+        Erc20Kit.clear(App.instance, Configuration.chain, Configuration.walletId)
     }
 
     private fun updateTransactionsSyncState() {
@@ -126,24 +126,24 @@ class AddressWatchViewModel : ViewModel() {
         val rpcSource: RpcSource?
         val transactionSource: TransactionSource?
 
-        when (io.dexnet.ethereumkit.sample.Configuration.chain) {
+        when (Configuration.chain) {
             Chain.BinanceSmartChain -> {
-                transactionSource = TransactionSource.bscscan(io.dexnet.ethereumkit.sample.Configuration.bscScanKey)
+                transactionSource = TransactionSource.bscscan(Configuration.bscScanKey)
                 rpcSource = RpcSource.binanceSmartChainHttp()
             }
             Chain.Ethereum -> {
-                transactionSource = TransactionSource.ethereumEtherscan(io.dexnet.ethereumkit.sample.Configuration.etherscanKey)
-                rpcSource = if (io.dexnet.ethereumkit.sample.Configuration.webSocket)
-                    RpcSource.ethereumInfuraWebSocket(io.dexnet.ethereumkit.sample.Configuration.infuraProjectId, io.dexnet.ethereumkit.sample.Configuration.infuraSecret)
+                transactionSource = TransactionSource.ethereumEtherscan(Configuration.etherscanKey)
+                rpcSource = if (Configuration.webSocket)
+                    RpcSource.ethereumInfuraWebSocket(Configuration.infuraProjectId, Configuration.infuraSecret)
                 else
-                    RpcSource.ethereumInfuraHttp(io.dexnet.ethereumkit.sample.Configuration.infuraProjectId, io.dexnet.ethereumkit.sample.Configuration.infuraSecret)
+                    RpcSource.ethereumInfuraHttp(Configuration.infuraProjectId, Configuration.infuraSecret)
             }
             Chain.EthereumGoerli -> {
-                transactionSource = TransactionSource.goerliEtherscan(io.dexnet.ethereumkit.sample.Configuration.etherscanKey)
-                rpcSource = if (io.dexnet.ethereumkit.sample.Configuration.webSocket)
-                    RpcSource.goerliInfuraWebSocket(io.dexnet.ethereumkit.sample.Configuration.infuraProjectId, io.dexnet.ethereumkit.sample.Configuration.infuraSecret)
+                transactionSource = TransactionSource.goerliEtherscan(Configuration.etherscanKey)
+                rpcSource = if (Configuration.webSocket)
+                    RpcSource.goerliInfuraWebSocket(Configuration.infuraProjectId, Configuration.infuraSecret)
                 else
-                    RpcSource.goerliInfuraHttp(io.dexnet.ethereumkit.sample.Configuration.infuraProjectId, io.dexnet.ethereumkit.sample.Configuration.infuraSecret)
+                    RpcSource.goerliInfuraHttp(Configuration.infuraProjectId, Configuration.infuraSecret)
             }
             else -> {
                 rpcSource = null
@@ -160,9 +160,9 @@ class AddressWatchViewModel : ViewModel() {
         }
 
         return EthereumKit.getInstance(
-            io.dexnet.ethereumkit.sample.App.instance, wordList, "",
-            io.dexnet.ethereumkit.sample.Configuration.chain, rpcSource, transactionSource,
-            io.dexnet.ethereumkit.sample.Configuration.walletId
+            App.instance, wordList, "",
+            Configuration.chain, rpcSource, transactionSource,
+            Configuration.walletId
         )
     }
 
