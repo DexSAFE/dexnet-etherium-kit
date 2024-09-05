@@ -79,7 +79,7 @@ class TransactionSource(val name: String, val type: SourceType) {
         fun dexnet(apiKey: String): TransactionSource {
             return TransactionSource(
                 "dexnetchain.com",
-                SourceType.Etherscan("https://explorer.dexnetchain.com/api/v2", "https://explorer.dexnetchain.com", apiKey)
+                SourceType.Etherscan("https://explorer.dexnetchain.com/api/v2/", "https://explorer.dexnetchain.com", apiKey)
             )
         }
 
