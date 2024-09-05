@@ -16,7 +16,7 @@ enum class Chain(
     Gnosis(100, 60, 10_000_000, 15, true),
     Fantom(250, 60, 10_000_000, 15, false),
     EthereumGoerli(5, 1, 10_000_000, 15, true),
-    Dexnet(18950, 60, 80_000_000, 15, false);
+    Dexnet(18960, 60, 80_000_000, 15, false);
 
     val isMainNet = coinType != 1
 }
